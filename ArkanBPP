@@ -1,0 +1,25 @@
+rom github import Github
+
+token = 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
+g = Github(token)
+
+repo = g.get_repo("Arkanfadhil/BPP")
+print(repo.full_name)
+
+# Fungsi untuk cek semua file di repo (rekursif)
+def cek_files():
+    contents = repo.get_contents("")
+    all_files = []
+    while contents:
+        file_content = contents.pop(0)
+        if file_content.type == "dir":
+            contents.extend(repo.get_contents(file_content.path))
+        else:
+            all_files.append(file_content.path)
+    return all_files
+
+# Panggil fungsi dan tampilkan daftar file
+files = cek_files()
+print("Files in repository:")
+for f in files:
+    print(f)
